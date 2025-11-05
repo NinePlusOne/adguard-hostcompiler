@@ -2,7 +2,8 @@
   "name": "Simple Blocklist",
   "description": "A comprehensive DNS blocklist compiled from multiple sources",
   "homepage": "https://github.com/NinePlusOne/adguard-hostcompiler",
-  "license": "MIT",
+  "license": "GPLv3",
+  "expires": "1 day",
   "sources": [
     {
       "source": "https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/adblock.txt",
