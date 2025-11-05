@@ -18,7 +18,7 @@
       "type": "hosts"
     },
     {
-      "source": "sources.txt",
+      "source": "custom-rules.txt",
       "type": "adblock"
     }
   ],
