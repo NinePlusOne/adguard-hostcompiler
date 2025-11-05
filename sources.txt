@@ -1,0 +1,5 @@
+! Add your own custom rules here - one per line
+! Examples:
+||custom-tracking-site.com^
+||my-ads-network.net^
+||specific-malware.org^

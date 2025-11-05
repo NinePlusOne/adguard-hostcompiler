@@ -1,0 +1,26 @@
+{
+  "name": "Simple Blocklist",
+  "sources": [
+    {
+      "source": "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+      "type": "hosts"
+    },
+    {
+      "source": "https://someonewhocares.org/hosts/zero/hosts",
+      "type": "hosts"
+    },
+    {
+      "source": "https://winhelp2002.mvps.org/hosts.txt",
+      "type": "hosts"
+    },
+    {
+      "source": "sources.txt",
+      "type": "adblock"
+    }
+  ],
+  "transformations": ["Deduplicate", "Validate"]
+}

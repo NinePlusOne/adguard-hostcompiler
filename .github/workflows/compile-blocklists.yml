@@ -1,4 +1,4 @@
-name: Compile Blocklists
+name: Compile Blocklist
 
 on:
   schedule:
@@ -7,64 +7,44 @@ on:
   workflow_dispatch:  # Allow manual triggers
   push:
     paths:
-      - 'configs/**'
-      - 'sources/**'
+      - 'config.json'
+      - 'sources.txt'
+      - 'allow.txt'
+      - 'deny.txt'
 
 jobs:
   compile:
-    runs-on: ubuntu-latest  # Cheapest GitHub runner
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Full history for commit operations
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
 
     - name: Install HostlistCompiler
       run: npm install -g @adguard/hostlist-compiler
 
-    - name: Compile blocklists
+    - name: Compile blocklist
       run: |
-        # Create outputs directory if it doesn't exist
-        mkdir -p outputs
+        hostlist-compiler --config config.json --output compiled.txt --verbose
 
-        # Compile each configuration file
-        for config in configs/*.json; do
-          if [ -f "$config" ]; then
-            filename=$(basename "$config" .json)
-            echo "Compiling $filename..."
-            hostlist-compiler --config "$config" --output "outputs/$filename.txt" --verbose
-          fi
-        done
-
-    - name: Validate outputs
+    - name: Validate output
       run: |
-        # Check if output files were created
-        for config in configs/*.json; do
-          if [ -f "$config" ]; then
-            filename=$(basename "$config" .json)
-            if [ ! -f "outputs/$filename.txt" ]; then
-              echo "Error: Output file outputs/$filename.txt was not created"
-              exit 1
-            fi
-            # Check file size
-            filesize=$(wc -c < "outputs/$filename.txt")
-            if [ "$filesize" -lt 1000 ]; then
-              echo "Warning: Output file outputs/$filename.txt is very small ($filesize bytes)"
-            fi
-          fi
-        done
+        if [ ! -f "compiled.txt" ]; then
+          echo "Error: compiled.txt was not created"
+          exit 1
+        fi
+        filesize=$(wc -c < "compiled.txt")
+        echo "Compiled blocklist size: $filesize bytes"
 
-    - name: Commit and push compiled blocklists
+    - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add outputs/
-        git diff --staged --quiet || git commit -m "chore: Update compiled blocklists [skip ci]"
+        git add compiled.txt
+        git diff --staged --quiet || git commit -m "chore: Update compiled blocklist [skip ci]"
         git push

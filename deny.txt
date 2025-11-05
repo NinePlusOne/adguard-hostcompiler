@@ -1,0 +1,6 @@
+! Put domains you want to specifically block here - one per line
+! Examples:
+||tracking-site.com^
+||malicious-domain.net^
+||ads-network.org^
+||spyware-tracker.com^
