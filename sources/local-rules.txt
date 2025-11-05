@@ -1,0 +1,22 @@
+# Local custom rules for the blocklist
+# Add your custom blocking rules here
+
+# Block common tracking domains
+||google-analytics.com^
+||facebook.com^$third-party
+||doubleclick.net^
+
+# Block known malicious domains
+||malware.example.com^
+||phishing.example.com^
+
+# Block social media trackers
+||twitter.com^$third-party
+||instagram.com^$third-party
+
+# Block advertising networks
+||ads.example.com^
+||adserver.example.com^
+
+# Allow specific domains (whitelist)
+@@||allowlisted-domain.com^

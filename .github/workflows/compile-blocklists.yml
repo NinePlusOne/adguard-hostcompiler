@@ -1,0 +1,70 @@
+name: Compile Blocklists
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual triggers
+  push:
+    paths:
+      - 'configs/**'
+      - 'sources/**'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest  # Cheapest GitHub runner
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for commit operations
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install HostlistCompiler
+      run: npm install -g @adguard/hostlist-compiler
+
+    - name: Compile blocklists
+      run: |
+        # Create outputs directory if it doesn't exist
+        mkdir -p outputs
+
+        # Compile each configuration file
+        for config in configs/*.json; do
+          if [ -f "$config" ]; then
+            filename=$(basename "$config" .json)
+            echo "Compiling $filename..."
+            hostlist-compiler --config "$config" --output "outputs/$filename.txt" --verbose
+          fi
+        done
+
+    - name: Validate outputs
+      run: |
+        # Check if output files were created
+        for config in configs/*.json; do
+          if [ -f "$config" ]; then
+            filename=$(basename "$config" .json)
+            if [ ! -f "outputs/$filename.txt" ]; then
+              echo "Error: Output file outputs/$filename.txt was not created"
+              exit 1
+            fi
+            # Check file size
+            filesize=$(wc -c < "outputs/$filename.txt")
+            if [ "$filesize" -lt 100 ]; then
+              echo "Warning: Output file outputs/$filename.txt is very small ($filesize bytes)"
+            fi
+          fi
+        done
+
+    - name: Commit and push compiled blocklists
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add outputs/
+        git diff --staged --quiet || git commit -m "chore: Update compiled blocklists [skip ci]"
+        git push

@@ -1,0 +1,18 @@
+{
+  "name": "Main Blocklist",
+  "description": "Compiled blocklist from multiple sources",
+  "sources": [
+    {
+      "name": "AdGuard DNS Filter",
+      "source": "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt",
+      "type": "adblock",
+      "transformations": ["RemoveComments", "Validate"]
+    },
+    {
+      "name": "Local Rules",
+      "source": "sources/local-rules.txt",
+      "type": "adblock"
+    }
+  ],
+  "transformations": ["Deduplicate", "Compress"]
+}
