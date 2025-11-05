@@ -1,84 +1,76 @@
-# AdGuard HostlistCompiler GitHub Workflow
+# Big Blocklist
 
-This repository uses AdGuard's HostlistCompiler to compile blocklists from multiple sources and automatically update them via GitHub Actions.
+A DNS blocklist that combines multiple trusted sources into one list. Updated automatically every day.
 
-## Repository Structure
+## 🚀 Subscribe
 
+**One-Click Subscribe:**
+
+[📥 Subscribe to Big Blocklist](abp:subscribe?location=https://cdn.jsdelivr.net/gh/NinePlusOne/adguard-hostcompiler@main/compiled.txt&title=Big%20Blocklist)
+
+**Manual URL:**
 ```
-.github/workflows/          # GitHub Actions workflows
-configs/                    # HostlistCompiler configuration files
-sources/                    # Local source files for blocklists
-outputs/                    # Compiled blocklist outputs
+https://cdn.jsdelivr.net/gh/NinePlusOne/adguard-hostcompiler@main/compiled.txt
 ```
 
-## Quick Start
+Copy the URL above and add it to your adblocker's custom filter lists.
 
-1. **Configuration**: Add your configuration files to the `configs/` directory
-2. **Local Rules**: Add custom rules to `sources/local-rules.txt`
-3. **GitHub Actions**: The workflow runs automatically on schedule and when configs change
-4. **Outputs**: Compiled blocklists are saved in `outputs/` directory
+---
 
-## Configuration
+## 📋 What's Included
 
-Configuration files are JSON files placed in the `configs/` directory. See `configs/main-blocklist.json` for an example.
+This blocklist combines the following sources:
 
-## Available Transformations
+### Main Sources
+- **[1Hosts (Lite)](https://github.com/badmojr/1Hosts)** - Balanced ads and tracking protection
+- **[OISD Big](https://oisd.nl)** - Comprehensive domain blocklist
 
-HostlistCompiler supports the following transformations:
+### Hagezi's Protection Lists
+- **[Ultimate](https://github.com/hagezi/dns-blocklists)** - Aggressive ad and tracker blocking
+- **[Threat Intelligence Feeds](https://github.com/hagezi/dns-blocklists)** - Malware and phishing protection
+- **[DynDNS](https://github.com/hagezi/dns-blocklists)** - Blocks dynamic DNS providers used by malware
+- **[Hoster](https://github.com/hagezi/dns-blocklists)** - Blocks free hosting services often used for spam
+- **[Spam TLDs](https://github.com/hagezi/dns-blocklists)** - Blocks spam-heavy top-level domains
+- **[DNS Rebind Protection](https://github.com/hagezi/dns-blocklists)** - Prevents DNS rebinding attacks
+- **[Gambling](https://github.com/hagezi/dns-blocklists)** - Blocks gambling sites
 
-1. `RemoveComments` - Removes comments from rules
-2. `Compress` - Converts hosts lists to adblock format and removes redundant rules
-3. `RemoveModifiers` - Removes unsupported DNS filtering modifiers
-4. `Validate` - Removes dangerous or incompatible rules (excludes IP addresses)
-5. `ValidateAllowIp` - Same as Validate but keeps IP addresses
-6. `Deduplicate` - Removes duplicate rules
-7. `InvertAllow` - Converts blocking rules to allow rules
-8. `RemoveEmptyLines` - Removes empty lines
-9. `TrimLines` - Removes leading/trailing whitespace
-10. `InsertFinalNewLine` - Ensures file ends with newline
-11. `ConvertToAscii` - Converts non-ASCII characters to ASCII equivalents
+### Custom Rules
+- **custom-rules.txt** - Manually added blocking rules
+- **deny.txt** - Additional domains to block
+- **allow.txt** - Whitelist for false positives
 
-## Manual Testing
+---
 
-To test the compilation locally:
+## 🛠️ For Developers
 
+### How It Works
+1. GitHub Actions runs daily at 2 AM UTC
+2. Downloads and combines all sources
+3. Removes duplicates and validates rules
+4. Publishes the updated list to this repository
+5. CDN serves the list globally with low latency
+
+### Local Testing
 ```bash
-# Install HostlistCompiler globally
 npm install -g @adguard/hostlist-compiler
-
-# Compile a specific configuration
-hostlist-compiler --config configs/main-blocklist.json --output outputs/main-blocklist.txt --verbose
-
-# Or compile all configurations
-for config in configs/*.json; do
-  filename=$(basename "$config" .json)
-  hostlist-compiler --config "$config" --output "outputs/$filename.txt"
-done
+hostlist-compiler --config config.json --output compiled.txt
 ```
 
-## GitHub Actions Workflow
+### Add Your Own Rules
+Edit these files and commit:
+- `custom-rules.txt` - Add blocking rules (format: `||example.com^`)
+- `allow.txt` - Add exceptions (format: `@@||example.com^`)
+- `deny.txt` - Add more domains to block
 
-The workflow runs:
-- Daily at 2 AM UTC
-- When configuration files change
-- When local source files change
-- Manually via workflow_dispatch
+---
 
-## Cost Optimization
+## 📄 License
 
-- Uses `ubuntu-latest` (cheapest GitHub runner)
-- Caches Node.js dependencies
-- Only runs when configuration changes or on schedule
-- Uses efficient transformation combinations
+GPL-3.0 - See [LICENSE](LICENSE) file for details
 
-## Security Considerations
+---
 
-- Validates remote sources during compilation
-- Uses minimal GitHub token permissions
-- Checks output file integrity before committing
+## 🔗 Links
 
-## Additional Resources
-
-- [HostlistCompiler GitHub Repository](https://github.com/AdguardTeam/HostlistCompiler)
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [AdGuard DNS Filtering Syntax](https://adguard-dns.io/kb/general/dns-filtering-syntax/)
+- [AdGuard HostlistCompiler](https://github.com/AdguardTeam/HostlistCompiler)
+- [Report Issues](https://github.com/NinePlusOne/adguard-hostcompiler/issues)
