@@ -37,12 +37,8 @@ jobs:
 
     - name: Add Expires header
       run: |
-        # Add Expires metadata to the header
-        # Find the first empty line or rule and insert before it
-        if grep -q "^\[Adblock" compiled.txt; then
-          # Add Expires after the existing header comments
-          sed -i '/^! Compiled by @adguard\/hostlist-compiler/a ! Expires: 1 day' compiled.txt
-        fi
+        # Add Expires metadata to the header after the "Last modified" line
+        sed -i '/^! Last modified:/a ! Expires: 1 day' compiled.txt
 
     - name: Validate output
       run: |
