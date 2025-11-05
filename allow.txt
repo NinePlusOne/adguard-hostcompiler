@@ -1,7 +1,2 @@
-! Put domains you want to allow here - one per line
-! Examples:
-@@||google.com^
-@@||github.com^
-@@||stackoverflow.com^
-@@||microsoft.com^
-@@||apple.com^
+! Put domains you want to allow (whitelist) here - one per line
+! Format: @@||example.com^

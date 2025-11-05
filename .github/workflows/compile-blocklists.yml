@@ -8,9 +8,12 @@ on:
   push:
     paths:
       - 'config.json'
-      - 'sources.txt'
+      - 'custom-rules.txt'
       - 'allow.txt'
       - 'deny.txt'
+
+permissions:
+  contents: write
 
 jobs:
   compile:
@@ -31,34 +34,6 @@ jobs:
     - name: Compile blocklist
       run: |
         hostlist-compiler --config config.json --output compiled.txt --verbose
-
-    - name: Add metadata header
-      run: |
-        # Get current date/time in UTC
-        CURRENT_DATE=$(date -u +"%d %b %Y %H:%M")
-        CURRENT_DATETIME=$(date -u +"%Y.%m%d.%H%M")
-        RANDOM_SECONDS=$(date -u +"%S")
-        
-        # Count the number of rules (excluding comments and empty lines)
-        RULE_COUNT=$(grep -v '^!' compiled.txt | grep -v '^$' | wc -l)
-        
-        # Create metadata header
-        {
-          echo "[Adblock Plus]"
-          echo "! Title: Simple Blocklist"
-          echo "! Expires: 1 day"
-          echo "! Last modified: $CURRENT_DATE UTC"
-          echo "! Version: $CURRENT_DATETIME.$RANDOM_SECONDS"
-          echo "! Syntax: AdBlock"
-          echo "! Number of entries: $RULE_COUNT"
-          echo "!"
-        } > compiled_with_metadata.txt
-        
-        # Append the compiled rules
-        cat compiled.txt >> compiled_with_metadata.txt
-        
-        # Replace original file with metadata version
-        mv compiled_with_metadata.txt compiled.txt
 
     - name: Validate output
       run: |

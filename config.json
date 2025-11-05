@@ -1,5 +1,8 @@
 {
   "name": "Simple Blocklist",
+  "description": "A comprehensive DNS blocklist compiled from multiple sources",
+  "homepage": "https://github.com/NinePlusOne/adguard-hostcompiler",
+  "license": "MIT",
   "sources": [
     {
       "source": "https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/adblock.txt",
@@ -40,7 +43,16 @@
     {
       "source": "custom-rules.txt",
       "type": "adblock"
+    },
+    {
+      "source": "deny.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "allow.txt",
+      "type": "adblock"
     }
   ],
-  "transformations": ["Deduplicate", "Validate"]
+  "transformations": ["Deduplicate", "Validate"],
+  "exclusions_sources": ["allow.txt"]
 }
