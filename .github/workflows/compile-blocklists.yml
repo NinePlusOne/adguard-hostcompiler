@@ -43,16 +43,16 @@ jobs:
         RULE_COUNT=$(grep -v '^!' compiled.txt | grep -v '^$' | wc -l)
         
         # Create metadata header
-        cat > compiled_with_metadata.txt << EOF
-[Adblock Plus]
-! Title: Simple Blocklist
-! Expires: 1 day
-! Last modified: $CURRENT_DATE UTC
-! Version: $CURRENT_DATETIME.$RANDOM_SECONDS
-! Syntax: AdBlock
-! Number of entries: $RULE_COUNT
-!
-EOF
+        {
+          echo "[Adblock Plus]"
+          echo "! Title: Simple Blocklist"
+          echo "! Expires: 1 day"
+          echo "! Last modified: $CURRENT_DATE UTC"
+          echo "! Version: $CURRENT_DATETIME.$RANDOM_SECONDS"
+          echo "! Syntax: AdBlock"
+          echo "! Number of entries: $RULE_COUNT"
+          echo "!"
+        } > compiled_with_metadata.txt
         
         # Append the compiled rules
         cat compiled.txt >> compiled_with_metadata.txt
