@@ -2,20 +2,40 @@
   "name": "Simple Blocklist",
   "sources": [
     {
-      "source": "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt",
+      "source": "https://raw.githubusercontent.com/badmojr/1Hosts/master/Lite/adblock.txt",
       "type": "adblock"
     },
     {
-      "source": "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
-      "type": "hosts"
+      "source": "https://big.oisd.nl",
+      "type": "adblock"
     },
     {
-      "source": "https://someonewhocares.org/hosts/zero/hosts",
-      "type": "hosts"
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/ultimate.txt",
+      "type": "adblock"
     },
     {
-      "source": "https://winhelp2002.mvps.org/hosts.txt",
-      "type": "hosts"
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/tif.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/dyndns.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/hoster.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/spam-tlds-adblock.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adguard/dns-rebind-protection.txt",
+      "type": "adblock"
+    },
+    {
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/gambling.txt",
+      "type": "adblock"
     },
     {
       "source": "custom-rules.txt",
