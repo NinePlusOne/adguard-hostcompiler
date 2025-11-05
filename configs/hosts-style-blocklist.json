@@ -1,18 +1,33 @@
 {
-  "name": "Hosts Style Blocklist",
-  "description": "Compiled blocklist using hosts file format",
+  "name": "Enhanced Adblock Blocklist",
+  "description": "Optimized adblock format blocklist compiled from multiple sources with advanced filtering",
+  "homepage": "https://github.com/AdguardTeam/HostlistCompiler",
+  "license": "GPLv3",
+  "version": "1.0.0.0",
   "sources": [
     {
-      "name": "StevenBlack Hosts",
+      "name": "StevenBlack Hosts (Converted)",
       "source": "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
       "type": "hosts",
-      "transformations": ["RemoveComments", "Validate"]
+      "transformations": ["RemoveComments", "Compress", "Validate"]
     },
     {
-      "name": "Local Hosts Rules",
-      "source": "sources/local-hosts.txt",
-      "type": "hosts"
+      "name": "AdGuard DNS Filter",
+      "source": "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt",
+      "type": "adblock",
+      "transformations": ["RemoveComments", "RemoveModifiers", "Validate"]
+    },
+    {
+      "name": "Local Adblock Rules",
+      "source": "sources/local-adblock-rules.txt",
+      "type": "adblock"
     }
   ],
-  "transformations": ["Deduplicate", "Compress"]
+  "transformations": ["Deduplicate", "Compress", "Validate", "RemoveEmptyLines", "TrimLines", "InsertFinalNewLine"],
+  "exclusions": [
+    "*localhost*",
+    "*local*",
+    "*broadcasthost*",
+    "*ip6-*"
+  ]
 }

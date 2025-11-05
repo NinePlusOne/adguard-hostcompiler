@@ -1,0 +1,37 @@
+! Local adblock format rules
+! These rules use AdGuard DNS filtering syntax
+
+! Block tracking and analytics domains
+||google-analytics.com^
+||googletagmanager.com^
+||facebook.com^$third-party
+||doubleclick.net^
+||analytics.yahoo.com^
+||scorecardresearch.com^
+
+! Block advertising networks
+||ads.google.com^
+||googlesyndication.com^
+||amazon-adsystem.com^
+||adnxs.com^
+||rubiconproject.com^
+
+! Block social media trackers
+||connect.facebook.net^
+||platform.twitter.com^
+||syndication.twitter.com^
+||instagram.com^$third-party
+
+! Block common malware domains
+||malware.example.com^
+||phishing.example.com^
+||suspicious-domain.xyz^
+
+! Block telemetry and data collection
+||telemetry.microsoft.com^
+||crashlytics.com^
+||app-measurement.com^
+
+! Allow specific domains (whitelist rules)
+@@||allowlisted-domain.com^
+@@||cdn.jsdelivr.net^

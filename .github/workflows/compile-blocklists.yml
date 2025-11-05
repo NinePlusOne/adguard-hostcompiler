@@ -55,7 +55,7 @@ jobs:
             fi
             # Check file size
             filesize=$(wc -c < "outputs/$filename.txt")
-            if [ "$filesize" -lt 100 ]; then
+            if [ "$filesize" -lt 1000 ]; then
               echo "Warning: Output file outputs/$filename.txt is very small ($filesize bytes)"
             fi
           fi
